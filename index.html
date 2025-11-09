@@ -5,57 +5,161 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mr.SK STUDY HELP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://vjs.zencdn.net/8.6.1/video-js.css" rel="stylesheet">
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --dark-bg: #0f0f23;
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --dark: #0f0f23;
+            --light: #f8f9fa;
             --card-bg: rgba(255, 255, 255, 0.05);
-            --text-light: #e0e0e0;
-            --accent: #ff6b6b;
+            --card-hover: rgba(255, 255, 255, 0.1);
+            --sidebar-width: 280px;
+            --header-height: 70px;
         }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-light);
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: var(--light);
             min-height: 100vh;
             overflow-x: hidden;
         }
+        
+        /* Header Styles */
         .navbar {
-            background: rgba(15, 15, 35, 0.95) !important;
+            background: rgba(15, 15, 35, 0.95);
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            z-index: 1030;
+            height: var(--header-height);
         }
+        
         .navbar-brand {
             font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+            margin-right: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .nav-link {
+            color: var(--light);
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--success);
+        }
+        
+        /* Sidebar/Drawer */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: var(--sidebar-width);
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+            z-index: 1020;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .sidebar-header {
+            padding: 0 0 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-title {
             font-size: 1.5rem;
-            background: var(--secondary-gradient);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .sidebar {
-            background: rgba(15, 15, 35, 0.8);
-            backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
-            height: calc(100vh - 76px);
-        }
+        
         .sidebar .nav-link {
-            color: var(--text-light);
-            border-radius: 15px;
-            margin: 5px 10px;
-            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 8px 0;
+            border-radius: 12px;
+            color: var(--light);
+            text-decoration: none;
             transition: all 0.3s ease;
             border: 1px solid transparent;
-            text-decoration: none;
         }
+        
         .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background: var(--secondary-gradient);
-            border-color: rgba(255, 255, 255, 0.2);
+            background: var(--card-hover);
+            border-color: rgba(255, 255, 255, 0.1);
             transform: translateX(5px);
+            color: var(--success);
         }
+        
+        .sidebar .nav-link i {
+            margin-right: 12px;
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 0;
+            padding: calc(var(--header-height) + 20px) 20px 20px;
+            transition: margin-left 0.3s ease;
+            min-height: 100vh;
+        }
+        
+        .main-content.expanded {
+            margin-left: var(--sidebar-width);
+        }
+        
+        /* Cards */
         .card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -63,98 +167,137 @@
             overflow: hidden;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             backdrop-filter: blur(10px);
+            margin-bottom: 25px;
         }
+        
         .card:hover {
-            transform: translateY(-15px) rotateX(5deg);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             border-color: rgba(255, 255, 255, 0.2);
+            background: var(--card-hover);
         }
+        
         .card-header {
-            background: var(--primary-gradient);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             font-weight: 600;
-            padding: 15px 20px;
+            padding: 20px;
+            border-bottom: none;
         }
+        
         .card-body {
-            padding: 20px;
+            padding: 25px;
         }
-        .player-container {
-            background: #000;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-        }
-        .speed-control {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 10px;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .speed-slider {
-            flex: 1;
-            height: 6px;
-            border-radius: 3px;
-            background: rgba(255, 255, 255, 0.2);
-            outline: none;
-            -webkit-appearance: none;
-            margin: 0 10px;
-        }
-        .speed-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--accent);
-            cursor: pointer;
-        }
-        .btn-premium {
-            background: var(--secondary-gradient);
+        
+        /* Buttons */
+        .btn-primary-custom {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             border: none;
-            border-radius: 25px;
-            padding: 10px 25px;
+            border-radius: 15px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(67, 97, 238, 0.4);
+            color: white;
+        }
+        
+        .btn-secondary-custom {
+            background: linear-gradient(135deg, var(--secondary) 0%, #5a08a1 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 12px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 5px 15px rgba(114, 9, 183, 0.3);
+        }
+        
+        .btn-secondary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(114, 9, 183, 0.4);
+            color: white;
+        }
+        
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, #d31667 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 10px 20px;
             font-weight: 600;
             transition: all 0.3s ease;
             color: white;
         }
-        .btn-premium:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
-        }
-        .btn-download {
-            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-            color: #333;
-            border: none;
-            border-radius: 25px;
-            padding: 8px 16px;
-            font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-        .btn-download:hover {
-            transform: scale(1.1);
+        
+        .btn-accent:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(247, 37, 133, 0.4);
             color: white;
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
         }
-        .pdf-viewer {
+        
+        /* Player Container */
+        .player-container {
+            background: rgba(0, 0, 0, 0.7);
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        #content {
-            animation: slideInUp 0.6s ease-out;
+        
+        /* Video Player Customizations */
+        .video-js {
+            border-radius: 15px;
+            overflow: hidden;
         }
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+        
+        .vjs-big-play-button {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%) !important;
+            border: none !important;
+            border-radius: 50% !important;
+            width: 80px !important;
+            height: 80px !important;
+            line-height: 80px !important;
+            font-size: 2.5rem !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
         }
+        
+        .vjs-control-bar {
+            background: rgba(15, 15, 35, 0.9) !important;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+        
+        .vjs-playback-rate .vjs-playback-rate-value {
+            font-size: 1.2em;
+            line-height: 2.5;
+        }
+        
+        /* Controls */
+        .player-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        /* Lecture Cards */
         .lecture-card {
             position: relative;
             overflow: hidden;
+            height: 100%;
         }
+        
         .lecture-card::before {
             content: '';
             position: absolute;
@@ -162,70 +305,358 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--secondary-gradient);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             transform: scaleX(0);
             transition: transform 0.3s ease;
         }
+        
         .lecture-card:hover::before {
             transform: scaleX(1);
         }
+        
         .icon-bg {
-            background: var(--primary-gradient);
-            width: 60px;
-            height: 60px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+        }
+        
+        /* Mobile Styles */
+        .mobile-header {
+            display: none;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1010;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            height: var(--header-height);
+        }
+        
+        .menu-toggle {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1015;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 280px;
+            }
+            
+            .main-content.expanded {
+                margin-left: 0;
+            }
+            
+            .mobile-header {
+                display: flex;
+                align-items: center;
+            }
+            
+            .navbar {
+                display: none;
+            }
+            
+            .main-content {
+                padding-top: calc(var(--header-height) + 20px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .player-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+        
+        /* Animations */
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* PDF Viewer */
+        .pdf-viewer-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            background: white;
+            height: 600px;
+        }
+        
+        /* Skip Indicators */
+        .skip-indicator {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            z-index: 10;
+            display: none;
+        }
+        
+        .skip-left {
+            left: 20px;
+        }
+        
+        .skip-right {
+            right: 20px;
+        }
+        
+        /* Subject Grid */
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .subject-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-10px);
+            background: var(--card-hover);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subject-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subject-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .subject-desc {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            color: var(--success);
+        }
+        
+        /* Subject Icons */
+        .subject-icon-biology {
+            background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .subject-icon-chemistry {
+            background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: float 3s ease-in-out infinite 0.5s;
+        }
+        
+        .subject-icon-physics {
+            background: linear-gradient(135deg, #2196F3 0%, #0D47A1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: float 3s ease-in-out infinite 1s;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Video Actions */
+        .video-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Desktop Header -->
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="fas fa-graduation-cap me-2"></i>Mr.SK STUDY HELP</a>
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                Mr.SK STUDY HELP
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="#" onclick="showSubjects()"><i class="fas fa-home me-1"></i> Home</a>
+                <a class="nav-link" href="#"><i class="fas fa-info-circle me-1"></i> About</a>
+                <a class="nav-link" href="#"><i class="fas fa-share-alt me-1"></i> Share</a>
+                <a class="nav-link" href="#" id="settingsToggle"><i class="fas fa-cog me-1"></i> Settings</a>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <div class="container-fluid mt-5 pt-5">
-        <div class="row">
-            <div class="col-md-3">
-                <div class="sidebar p-3 sticky-top" style="top: 76px;">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="#" onclick="loadSubject(event, 'biology')">
-                                <i class="fas fa-dna me-2"></i>🧬 Biology
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="loadSubject(event, 'chemistry')">
-                                <i class="fas fa-flask me-2"></i>⚗️ Chemistry
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="loadSubject(event, 'physics')">
-                                <i class="fas fa-bolt me-2"></i>⚡ Physics
-                            </a>
-                        </li>
-                    </ul>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-graduation-cap logo-icon"></i>
+            Mr.SK STUDY HELP
+        </a>
+        <button class="theme-toggle ms-auto" id="mobileThemeToggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- Overlay for mobile menu -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Sidebar/Drawer -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3 class="sidebar-title">Study Subjects</h3>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="loadSubject('biology')">
+                    <i class="fas fa-dna"></i> Biology
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="loadSubject('chemistry')">
+                    <i class="fas fa-flask"></i> Chemistry
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="loadSubject('physics')">
+                    <i class="fas fa-bolt"></i> Physics
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="showSubjects()">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-share-alt"></i> Share App
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="sidebarSettingsToggle">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <div class="container">
+            <div id="content" class="animate-fade-in">
+                <!-- Initial content - Subject selection -->
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold mb-3">Welcome to Study Help</h1>
+                    <p class="lead mb-5">Select a subject to start learning with premium quality lectures and materials</p>
                 </div>
-            </div>
-            <div class="col-md-9">
-                <div id="content"></div>
+                
+                <div class="subject-grid">
+                    <div class="subject-card" onclick="loadSubject('biology')">
+                        <i class="fas fa-dna subject-icon subject-icon-biology"></i>
+                        <h3 class="subject-title">Biology</h3>
+                        <p class="subject-desc">Explore the science of life and living organisms</p>
+                        <button class="btn-primary-custom">Start Learning</button>
+                    </div>
+                    
+                    <div class="subject-card" onclick="loadSubject('chemistry')">
+                        <i class="fas fa-flask subject-icon subject-icon-chemistry"></i>
+                        <h3 class="subject-title">Chemistry</h3>
+                        <p class="subject-desc">Study matter, its properties, and transformations</p>
+                        <button class="btn-primary-custom">Start Learning</button>
+                    </div>
+                    
+                    <div class="subject-card" onclick="loadSubject('physics')">
+                        <i class="fas fa-bolt subject-icon subject-icon-physics"></i>
+                        <h3 class="subject-title">Physics</h3>
+                        <p class="subject-desc">Understand the fundamental laws of the universe</p>
+                        <button class="btn-primary-custom">Start Learning</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="https://vjs.zencdn.net/8.6.1/video.min.js"></script>
-    <script src="https://unpkg.com/@videojs/http-streaming@3.10.0/dist/videojs-http-streaming.min.js"></script>
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-        let currentSubject = 'biology';
-        let currentPlayer = null;
-
+        // Data for subjects and lectures
         const subjects = {
             biology: [
                 {id: 1, title: 'Digestive System (पाचन तंत्र)', video: 'youtube', url: 'https://www.youtube.com/watch?v=gqjzAedwPgg', pdf: 'https://selectionway-server.s3.ap-south-1.amazonaws.com/pdfs/files/1760482429525-1759479757573-DIGESTIVE_SYSTEM_CLASS_01_compressed.pdf'},
@@ -274,20 +705,96 @@
             ]
         };
 
-        function loadSubject(event, subject) {
-            if (event) event.preventDefault();
+        // Global variables
+        let currentSubject = '';
+        let currentPlayer = null;
+        let lastTapTime = 0;
+        let tapTimeout = null;
+        let skipIndicatorTimeout = null;
+        let isDarkTheme = true;
+
+        // DOM Elements
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('mainContent');
+        const menuToggle = document.getElementById('menuToggle');
+        const overlay = document.getElementById('overlay');
+        const contentDiv = document.getElementById('content');
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+
+        // Event Listeners
+        menuToggle.addEventListener('click', toggleSidebar);
+        overlay.addEventListener('click', toggleSidebar);
+        themeToggle.addEventListener('click', toggleTheme);
+        mobileThemeToggle.addEventListener('click', toggleTheme);
+        
+        // Window resize handler
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 992) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                mainContent.classList.remove('expanded');
+            }
+        });
+
+        // Toggle sidebar function
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            if (window.innerWidth > 992) {
+                mainContent.classList.toggle('expanded');
+            }
+        }
+
+        // Toggle theme function
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            const body = document.body;
+            const themeIcon = document.querySelectorAll('.theme-toggle i');
+            
+            if (isDarkTheme) {
+                body.style.background = 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)';
+                body.style.color = '#f8f9fa';
+                themeIcon.forEach(icon => {
+                    icon.className = 'fas fa-moon';
+                });
+            } else {
+                body.style.background = 'linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%)';
+                body.style.color = '#212529';
+                themeIcon.forEach(icon => {
+                    icon.className = 'fas fa-sun';
+                });
+            }
+        }
+
+        // Load subject function
+        function loadSubject(subject) {
             currentSubject = subject;
             const data = subjects[subject];
             if (!data) {
-                document.getElementById('content').innerHTML = '<div class="alert alert-danger">Subject not found!</div>';
+                contentDiv.innerHTML = '<div class="alert alert-danger">Subject not found!</div>';
                 return;
             }
-            let html = `<div class="card-header mb-4">
-                            <h2 class="mb-0"><i class="fas fa-${subject === 'biology' ? 'dna' : subject === 'chemistry' ? 'flask' : 'bolt'} me-2"></i>${subject.charAt(0).toUpperCase() + subject.slice(1)} Lectures</h2>
-                        </div>
-                        <div class="row">`;
+            
+            // Update sidebar active state
+            document.querySelectorAll('.sidebar .nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelector(`.sidebar .nav-link[onclick="loadSubject('${subject}')"]`).classList.add('active');
+            
+            // Generate subject content
+            let html = `
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">
+                        <i class="fas fa-${getSubjectIcon(subject)} me-2 subject-icon-${subject}"></i>
+                        ${subject.charAt(0).toUpperCase() + subject.slice(1)} Lectures
+                    </h2>
+                    <button class="btn-secondary-custom" onclick="showSubjects()">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Subjects
+                    </button>
+                </div>
+                <div class="row">`;
+            
             data.forEach(lec => {
-                const icon = subject === 'biology' ? 'fa-heartbeat' : subject === 'chemistry' ? 'fa-vial' : 'fa-magnet';
+                const icon = getLectureIcon(subject);
                 html += `
                     <div class="col-md-6 col-lg-4 mb-4">
                         <div class="card lecture-card animate__animated animate__fadeInUp" style="animation-delay: ${Math.random() * 0.3}s;">
@@ -295,86 +802,354 @@
                                 <i class="fas ${icon} fa-2x"></i>
                             </div>
                             <div class="card-body text-center">
-                                <h5 class="card-title text-light">Class ${lec.id}: ${lec.title}</h5>
-                                <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                    <button class="btn-premium me-2" onclick="playVideo('${lec.video}', '${lec.url}')">
-                                        <i class="fas fa-play me-1"></i>Play
+                                <h5 class="card-title">Class ${lec.id}: ${lec.title}</h5>
+                                <div class="d-flex justify-content-center gap-2 flex-wrap mt-3">
+                                    <button class="btn-primary-custom me-2" onclick="playVideo('${lec.video}', '${lec.url}', '${lec.title}')">
+                                        <i class="fas fa-play me-1"></i>Play Lecture
                                     </button>
-                                    ${lec.video === 'youtube' ? '' : `<a href="${lec.url}" class="btn-download" download><i class="fas fa-download me-1"></i>Download Video</a>`}
-                                    ${lec.pdf ? `<a href="${lec.pdf}" class="btn-download" download><i class="fas fa-file-pdf me-1"></i>Download PDF</a>` : ''}
+                                    ${lec.pdf ? `<button class="btn-accent" onclick="viewPDF('${lec.pdf}', '${lec.title}')">
+                                        <i class="fas fa-file-pdf me-1"></i>View PDF
+                                    </button>` : ''}
                                 </div>
                             </div>
                         </div>
                     </div>
                 `;
             });
+            
             html += '</div>';
-            document.getElementById('content').innerHTML = html;
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            event.target.classList.add('active');
+            contentDiv.innerHTML = html;
+            
+            // Close sidebar on mobile after selection
+            if (window.innerWidth <= 992) {
+                toggleSidebar();
+            }
         }
 
-        function playVideo(type, url) {
-            let playerHtml;
-            let downloadBtn = '';
-            if (type === 'youtube') {
-                const embedUrl = url.replace('watch?v=', 'embed/') + '?enablejsapi=1&rel=0';
-                playerHtml = `<iframe class="w-100 rounded" height="500" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>
-                              <div class="alert alert-warning mt-3">YouTube videos: Use browser extensions for download. Speed up to 2x via player controls.</div>`;
-            } else {
-                downloadBtn = `<a href="${url}" class="btn-download ms-2" download><i class="fas fa-download me-1"></i>Download</a>`;
-                playerHtml = `
-                    <video id="my-video" class="video-js vjs-big-play-centered vjs-default-skin rounded" controls preload="auto" width="100%" height="500" data-setup='{"fluid": true}'>
-                        <source src="${url}" type="application/x-mpegURL">
-                        <p class="vjs-no-js">To view this video, enable JavaScript and consider upgrading to a web browser that supports HTML5 video.</p>
-                    </video>
-                    <div class="speed-control">
-                        <label class="form-label mb-0 me-2">Speed:</label>
-                        <span id="speedValue" class="me-2">1.0x</span>
-                        <input type="range" class="speed-slider" id="speedSlider" min="0.5" max="3" step="0.1" value="1" oninput="updateSpeed()">
-                        ${downloadBtn}
+        // Show subjects (initial view)
+        function showSubjects() {
+            // Reset to initial content
+            contentDiv.innerHTML = `
+                <div class="text-center mb-5">
+                    <h1 class="display-4 fw-bold mb-3">Welcome to Study Help</h1>
+                    <p class="lead mb-5">Select a subject to start learning with premium quality lectures and materials</p>
+                </div>
+                
+                <div class="subject-grid">
+                    <div class="subject-card" onclick="loadSubject('biology')">
+                        <i class="fas fa-dna subject-icon subject-icon-biology"></i>
+                        <h3 class="subject-title">Biology</h3>
+                        <p class="subject-desc">Explore the science of life and living organisms</p>
+                        <button class="btn-primary-custom">Start Learning</button>
                     </div>
-                `;
-            }
-            document.getElementById('content').innerHTML = `
-                <div class="card player-container animate__animated animate__zoomIn">
-                    <div class="card-body p-0">
-                        ${playerHtml}
-                        <button class="btn-premium mt-3" onclick="loadSubject(null, '${currentSubject}')">
-                            <i class="fas fa-arrow-left me-2"></i>Back to Lectures
-                        </button>
+                    
+                    <div class="subject-card" onclick="loadSubject('chemistry')">
+                        <i class="fas fa-flask subject-icon subject-icon-chemistry"></i>
+                        <h3 class="subject-title">Chemistry</h3>
+                        <p class="subject-desc">Study matter, its properties, and transformations</p>
+                        <button class="btn-primary-custom">Start Learning</button>
+                    </div>
+                    
+                    <div class="subject-card" onclick="loadSubject('physics')">
+                        <i class="fas fa-bolt subject-icon subject-icon-physics"></i>
+                        <h3 class="subject-title">Physics</h3>
+                        <p class="subject-desc">Understand the fundamental laws of the universe</p>
+                        <button class="btn-primary-custom">Start Learning</button>
                     </div>
                 </div>
             `;
+        }
+
+        // Play video function
+        function playVideo(type, url, title) {
+            let playerHtml;
+            
+            if (type === 'youtube') {
+                const embedUrl = url.replace('watch?v=', 'embed/') + '?enablejsapi=1&rel=0';
+                playerHtml = `
+                    <div class="position-relative">
+                        <iframe id="youtube-player" class="w-100 rounded" height="500" src="${embedUrl}" frameborder="0" allowfullscreen></iframe>
+                        <div class="skip-indicator skip-left"><< 10s</div>
+                        <div class="skip-indicator skip-right">10s >></div>
+                    </div>
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle me-2"></i>
+                        YouTube Player: Use controls for playback speed. Double-tap on left/right to skip 10 seconds.
+                    </div>
+                `;
+            } else {
+                playerHtml = `
+                    <div class="position-relative">
+                        <video id="my-video" class="video-js vjs-big-play-centered vjs-default-skin rounded" controls preload="auto" width="100%" height="500" data-setup='{"fluid": true, "playbackRates": [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3]}'>
+                            <source src="${url}" type="application/x-mpegURL">
+                            <p class="vjs-no-js">To view this video, enable JavaScript and consider upgrading to a web browser that supports HTML5 video.</p>
+                        </video>
+                        <div class="skip-indicator skip-left"><< 10s</div>
+                        <div class="skip-indicator skip-right">10s >></div>
+                    </div>
+                `;
+            }
+            
+            contentDiv.innerHTML = `
+                <div class="card player-container animate__animated animate__zoomIn">
+                    <div class="card-header">
+                        <h4 class="mb-0">${title}</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        ${playerHtml}
+                        <div class="video-actions p-3">
+                            <button class="btn-secondary-custom" onclick="loadSubject('${currentSubject}')">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Lectures
+                            </button>
+                            <button class="btn-primary-custom" onclick="showSubjects()">
+                                <i class="fas fa-home me-2"></i>All Subjects
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Initialize video player for HLS streams
             if (type !== 'youtube') {
                 setTimeout(() => {
-                    if (currentPlayer) currentPlayer.dispose();
+                    if (currentPlayer) {
+                        currentPlayer.dispose();
+                    }
+                    
                     currentPlayer = videojs('my-video', {
                         fluid: true,
-                        playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3]
+                        playbackRates: [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3],
+                        userActions: {
+                            doubleClick: function(event) {
+                                handleDoubleClick(event);
+                            }
+                        }
                     });
-                    updateSpeed(); // Initial set
+                    
+                    // Add mouse wheel support
+                    const videoEl = document.getElementById('my-video');
+                    if (videoEl) {
+                        videoEl.addEventListener('wheel', handleWheel);
+                    }
                 }, 500);
-            }
-        }
-
-        function updateSpeed() {
-            const slider = document.getElementById('speedSlider');
-            let value = parseFloat(slider.value);
-            // Remove extra zeros/decimals
-            if (value % 1 === 0) {
-                value = Math.floor(value);
             } else {
-                value = value.toFixed(1);
+                // For YouTube, add click handlers for skip functionality
+                const youtubePlayer = document.getElementById('youtube-player');
+                if (youtubePlayer) {
+                    youtubePlayer.addEventListener('click', handleYouTubeClick);
+                }
             }
-            document.getElementById('speedValue').textContent = value + 'x';
+            
+            // Add skip indicators for both types
+            addSkipIndicators();
+        }
+
+        // View PDF function
+        function viewPDF(pdfUrl, title) {
+            contentDiv.innerHTML = `
+                <div class="card player-container animate__animated animate__zoomIn">
+                    <div class="card-header">
+                        <h4 class="mb-0">${title} - PDF</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="pdf-viewer-container">
+                            <iframe src="${pdfUrl}" width="100%" height="100%" frameborder="0"></iframe>
+                        </div>
+                        <div class="mt-3 d-flex justify-content-between">
+                            <button class="btn-secondary-custom" onclick="loadSubject('${currentSubject}')">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Lectures
+                            </button>
+                            <button class="btn-primary-custom" onclick="showSubjects()">
+                                <i class="fas fa-home me-2"></i>All Subjects
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper functions
+        function getSubjectIcon(subject) {
+            const icons = {
+                biology: 'dna',
+                chemistry: 'flask',
+                physics: 'bolt'
+            };
+            return icons[subject] || 'book';
+        }
+
+        function getLectureIcon(subject) {
+            const icons = {
+                biology: 'heartbeat',
+                chemistry: 'vial',
+                physics: 'magnet'
+            };
+            return icons[subject] || 'play-circle';
+        }
+
+        function toggleFullscreen() {
             if (currentPlayer) {
-                currentPlayer.playbackRate(slider.value);
+                if (currentPlayer.isFullscreen()) {
+                    currentPlayer.exitFullscreen();
+                } else {
+                    currentPlayer.requestFullscreen();
+                }
+            } else {
+                // For YouTube or other players
+                const videoElement = document.querySelector('video') || document.querySelector('iframe');
+                if (videoElement) {
+                    if (videoElement.requestFullscreen) {
+                        videoElement.requestFullscreen();
+                    } else if (videoElement.webkitRequestFullscreen) {
+                        videoElement.webkitRequestFullscreen();
+                    } else if (videoElement.mozRequestFullScreen) {
+                        videoElement.mozRequestFullScreen();
+                    } else if (videoElement.msRequestFullscreen) {
+                        videoElement.msRequestFullscreen();
+                    }
+                }
             }
         }
 
-        // Initialize
-        loadSubject(null, 'biology');
+        // Double click handler for video skip
+        function handleDoubleClick(event) {
+            const videoElement = event.target.closest('.video-js') || event.target.closest('#youtube-player');
+            if (!videoElement) return;
+            
+            const rect = videoElement.getBoundingClientRect();
+            const clickX = event.clientX - rect.left;
+            const videoWidth = rect.width;
+            
+            // Determine if click was on left or right side
+            if (clickX < videoWidth / 2) {
+                skipBackward();
+            } else {
+                skipForward();
+            }
+        }
+
+        // YouTube click handler
+        function handleYouTubeClick(event) {
+            const now = new Date().getTime();
+            const timeSinceLastTap = now - lastTapTime;
+            
+            if (timeSinceLastTap < 300 && timeSinceLastTap > 0) {
+                // Double tap detected
+                const rect = event.target.getBoundingClientRect();
+                const clickX = event.clientX - rect.left;
+                const videoWidth = rect.width;
+                
+                if (clickX < videoWidth / 2) {
+                    skipBackward();
+                } else {
+                    skipForward();
+                }
+                
+                // Clear the single tap timeout
+                clearTimeout(tapTimeout);
+                lastTapTime = 0;
+            } else {
+                // Single tap
+                lastTapTime = now;
+                tapTimeout = setTimeout(() => {
+                    lastTapTime = 0;
+                }, 300);
+            }
+        }
+
+        // Mouse wheel handler - Fixed direction
+        function handleWheel(event) {
+            event.preventDefault();
+            
+            if (event.deltaY < 0) {
+                // Scrolling up - skip forward
+                skipForward();
+            } else {
+                // Scrolling down - skip backward
+                skipBackward();
+            }
+        }
+
+        // Skip forward function
+        function skipForward() {
+            if (currentPlayer) {
+                const currentTime = currentPlayer.currentTime();
+                currentPlayer.currentTime(currentTime + 10);
+                showSkipIndicator('right');
+            } else {
+                // For YouTube, we can't control this without API
+                showSkipIndicator('right');
+            }
+        }
+
+        // Skip backward function
+        function skipBackward() {
+            if (currentPlayer) {
+                const currentTime = currentPlayer.currentTime();
+                currentPlayer.currentTime(Math.max(0, currentTime - 10));
+                showSkipIndicator('left');
+            } else {
+                // For YouTube, we can't control this without API
+                showSkipIndicator('left');
+            }
+        }
+
+        // Show skip indicator
+        function showSkipIndicator(direction) {
+            const indicator = document.querySelector(`.skip-${direction}`);
+            if (indicator) {
+                indicator.style.display = 'block';
+                
+                // Hide after 1 second
+                clearTimeout(skipIndicatorTimeout);
+                skipIndicatorTimeout = setTimeout(() => {
+                    indicator.style.display = 'none';
+                }, 1000);
+            }
+        }
+
+        // Add skip indicators to video player
+        function addSkipIndicators() {
+            // Skip indicators are already in the HTML, just need to add event listeners
+            const videoContainer = document.querySelector('.position-relative');
+            if (videoContainer) {
+                videoContainer.addEventListener('dblclick', handleDoubleClick);
+                
+                // For mobile touch events
+                videoContainer.addEventListener('touchstart', function(event) {
+                    if (event.touches.length > 1) return;
+                    
+                    const now = new Date().getTime();
+                    const timeSinceLastTap = now - lastTapTime;
+                    
+                    if (timeSinceLastTap < 300 && timeSinceLastTap > 0) {
+                        // Double tap detected
+                        const rect = this.getBoundingClientRect();
+                        const touch = event.touches[0];
+                        const clickX = touch.clientX - rect.left;
+                        const videoWidth = rect.width;
+                        
+                        if (clickX < videoWidth / 2) {
+                            skipBackward();
+                        } else {
+                            skipForward();
+                        }
+                        
+                        event.preventDefault();
+                        lastTapTime = 0;
+                    } else {
+                        // Single tap
+                        lastTapTime = now;
+                        tapTimeout = setTimeout(() => {
+                            lastTapTime = 0;
+                        }, 300);
+                    }
+                });
+            }
+        }
+
+        // Initialize with subjects view
+        showSubjects();
     </script>
 </body>
 </html>
